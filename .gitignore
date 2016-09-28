@@ -1,0 +1,16 @@
+/Denguenator.iml
+/out/*
+/.idea/*
+
+/ANN/.RData
+/ANN/.Rhistory
+/ANN/.Rproj.user/*
+/ANN/images/*
+/ANN/data/*
+/ANN/ANN area 55/*
+/ANN/ANN area 55 - 2/*
+
+/Deng/.RData
+/Deng/.Rhistory
+/Deng/.Rproj.user/*
+/Deng/sirmodel.csv
