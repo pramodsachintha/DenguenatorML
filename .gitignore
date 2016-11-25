@@ -2,6 +2,9 @@
 /out/*
 /.idea/*
 
+/images/*
+/Data/*
+
 /ANN/.RData
 /ANN/.Rhistory
 /ANN/.Rproj.user/*
@@ -14,3 +17,9 @@
 /Deng/.Rhistory
 /Deng/.Rproj.user/*
 /Deng/sirmodel.csv
+.Rproj.user
+/.Rhistory
+/.RData
+/.Rproj.user/*
+
+/DenguenatorML.Rproj

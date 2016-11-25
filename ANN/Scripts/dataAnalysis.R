@@ -1,13 +1,14 @@
 require(GGally)
-
+require(corrgram)
+require (Hmisc)
 # Read all the data
 #dengueData2013 = fread("/media/suchira/0A9E051F0A9E051F/CSE 2012/Semester 07-08/FYP/Denguenator/Dengunator 2.0/Data/Dengue/dengueCases2013.csv", data.table = F, header = F, col.names = c("id", "MOH_name", c(1:52), "Total"))
-dengueData2013 = fread("data/cleanedDengueData2013.csv", data.table = F, header = T, col.names = c("id", "MOH_name", c(1:52), "Total"))
-temperatureData2013 = fread("/media/suchira/0A9E051F0A9E051F/CSE 2012/Semester 07-08/FYP/Denguenator/Dengunator 2.0/Data/Met_data/temp/temp.csv", data.table = F, header = T)
-rainfallData2013 = fread("rainfall2013.csv", data.table = F, header = T, col.names = c("MOH_name", c(1:52)))
+dengueData2013 = fread("E:/R_git/Pramod_ML/data/cleanedDengueData2013.csv", data.table = F, header = T, col.names = c("id", "MOH_name", c(1:52), "Total"))
+temperatureData2013 = fread("D:/Dengue 2.0/Data/Met_data/temp/temp.csv", data.table = F, header = T)
+rainfallData2013 = fread("D:/Dengue 2.0/Data/rainfall2013.csv", data.table = F, header = T, col.names = c("MOH_name", c(1:52)))
 write.csv(x = rainfallData2013, file = "rainfall2013.csv", sep = ",", row.names = FALSE, col.names = TRUE)
 
-dengueData2014 = fread("data/cleanedDengueData2014.csv", data.table = F, header = T, col.names = c("id", "MOH_name", c(1:52), "Total"))
+dengueData2014 = fread("E:/R_git/Pramod_ML/data/cleanedDengueData2014.csv", data.table = F, header = T, col.names = c("id", "MOH_name", c(1:52), "Total"))
 #...................................................................#
 
 # Histograms
@@ -116,5 +117,9 @@ for(i in 1:ncol(currentMOH)){
 
 
 
-ggcorr(currentMOH, geom = "circle", min_size = 15, max_size = 30, label = TRUE, label_round = 2) +
+ggcorr(currentMOH, geom = "tile", min_size = 15, max_size = 30, label = F, label_round = 2) +
   ggtitle("Variable Correlation - Colombo MOH")
+#.........................correlation of the data set.........................#
+corrgram(currentMOH)
+correlations <- rcorr(as.matrix(currentMOH))
+correlations$P
