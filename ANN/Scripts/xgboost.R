@@ -37,7 +37,7 @@ nround = 100000
 max.depth = 7
 model <- xgb.cv(data = sparce_matrix_train, label = currentMOH[, "cases"][1:78], nfold = 4, max.depth = max.depth, eta = eta, nthread = 4, nround = nround, objective = "reg:linear", early.stop.round = 50, maximize = FALSE)
 
-nround = 1932
+nround = 375
 model <- xgboost(data = sparce_matrix_train, label = currentMOH[, "cases"][1:78], nfold = 4, max.depth = max.depth, eta = eta, nthread = 4, nround = nround, objective = "reg:linear", maximize = FALSE)
 
 sparce_matrix_test <- sparse.model.matrix(cases ~ .-1, data = as.data.frame(currentMOH[79:104, ]))

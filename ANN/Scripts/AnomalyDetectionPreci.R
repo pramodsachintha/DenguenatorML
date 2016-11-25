@@ -1,6 +1,6 @@
-area = 181
-tempArea = 138
+
 PreciArea = 152
+
 uncleanedTwoColumnPreciData2013= data.frame(weeks=1:52,Precipitation =melt(rainfallData2013[PreciArea,][,2:53])$value )
 cleanedTwoColumnPreciData2013 <- uncleanedTwoColumnPreciData2013
 #anomaly Detection

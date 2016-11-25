@@ -1,4 +1,4 @@
-area = 55
+
 tempArea = 138
 uncleanedTwoColumnTempData2013= data.frame(weeks=1:52,Temprature =melt(temperatureData2013[tempArea,][,3:54])$value )
 

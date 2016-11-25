@@ -1,5 +1,5 @@
-area = 181
-tempArea = 138
+area = 55
+
 currentMOH = data.frame(cases = cleanedTwoColumnData2013_2014$cases, 
                         temperature = cleanedTwoColumnTempData2013$Temprature,
                         rainfall = (cleanedTwoColumnPreciData2013$Precipitation)
