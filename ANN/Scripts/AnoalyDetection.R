@@ -1,15 +1,24 @@
 require(AnomalyDetection)
+require (devtools)
+install_github("twitter/AnomalyDetection")
 #data for AnomalyDetection
 
 #specific Moh Area
-area=142
+area=181
 uncleanedTwoColumnData2013= data.frame(weeks=1:52,cases =melt(unCleanedDengueData2013[area,][,3:54])$value )
 
 
 uncleanedTwoColumnData2014= data.frame(weeks=1:52,cases =melt(unCleanedDengueData2014[area,][,3:54])$value )
 
 
+#mobility filter
+mobilityArea="CMC"
+MohAreawisemobility= data.frame(weeks=1:104,mobility_value =mobilitydata2013[mobilitydata2013$MOH_NAME==mobilityArea,]$MOBILITY_VALUE)
 
+
+#mobility filter 2
+mobilityArea2="MC COLOMBO"
+MohAreawisemobilityModel2= data.frame(weeks=1:48,mobility_value =mobilitydata2013Model2[mobilitydata2013Model2$`moh name`==mobilityArea2,]$MOBILITY_VALUE)
 
 #....................2013 Dengue Data-------------------------
 
