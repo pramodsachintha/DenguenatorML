@@ -1,6 +1,8 @@
 library(Matrix)
 library(Metrics)
 library(xgboost)
+
+require(xgboost)
 require(Ckmeans.1d.dp)
 library(AnomalyDetection)
 
@@ -35,9 +37,9 @@ sparce_matrix_train <- sparse.model.matrix(cases ~ .-1, data = as.data.frame(cur
 eta = 0.01
 nround = 100000
 max.depth = 7
-model <- xgb.cv(data = sparce_matrix_train, label = currentMOH[, "cases"][1:78], nfold = 4, max.depth = max.depth, eta = eta, nthread = 4, nround = nround, objective = "reg:linear", early.stop.round = 50, maximize = FALSE)
+model <- xgb.cv(data = sparce_matrix_train, label = currentMOH[, "cases"][1:78], nfold = 4, max.depth = max.depth, eta = eta, nthread = 4, nround = nround, objective = "reg:linear", early_stopping_rounds  = 50, maximize = FALSE)
 
-nround = 375
+nround = 298
 model <- xgboost(data = sparce_matrix_train, label = currentMOH[, "cases"][1:78], nfold = 4, max.depth = max.depth, eta = eta, nthread = 4, nround = nround, objective = "reg:linear", maximize = FALSE)
 
 sparce_matrix_test <- sparse.model.matrix(cases ~ .-1, data = as.data.frame(currentMOH[79:104, ]))
@@ -49,16 +51,33 @@ xgb.plot.importance(importance_matrix)
 
 data = data.frame(week = c(79:104), predicted = as.numeric(pred), cleanedCases = as.numeric(currentMOH[79:104,]$cases))
 dmelt = melt(data, id = "week")
-title = paste("Dengue Incidences 2013_2014 Prediction By XGBoost - Colombo MOH  MSE = ", round(mse(predicted = pred, actual = currentMOH[, "cases"][79:104])
+title = paste("Dengue Incidences 2013_2014 Prediction By XGBoost - COLOMBO MOH  MSE = ", round(mse(predicted = pred, actual = currentMOH[, "cases"][79:104])
 , digits = 2))
+
+ggplot(data = dmelt, 
+       aes(x = week, y = value, color = variable, shape = variable)) +
+  xlab("Week") +
+  ylab("Incidences") +
+ #theme(axis.ticks.y = element_blank(), axis.text.y = element_blank()) +
+  geom_line() +
+  geom_point()+
+  ggtitle(title)
+
+#comparison plot
+previouspred=as.numeric(pred)
+#ploting compared data
+data = data.frame(week = c(79:104), WithMobility = as.numeric(pred), cleanedCases = as.numeric(currentMOH[79:104,]$cases),WithoutMobility=previouspred)
+dmelt = melt(data, id = "week")
+title = paste("With Mobility(UOM) vs Without Mobility ")
 
 ggplot(data = dmelt, 
        aes(x = week, y = value, color = variable)) +
   xlab("Week") +
   ylab("Incidences") +
-  theme(axis.ticks.y = element_blank(), axis.text.y = element_blank()) +
+ # theme(axis.ticks.y = element_blank(), axis.text.y = element_blank()) +
   geom_line() +
   ggtitle(title)
+
 
 # Model Fit
 pred = predict(model, sparce_matrix_train)
@@ -68,11 +87,12 @@ title = paste("Dengue Incidences 2013_2014 XGBoost fit Colombo MOH  MSE = ", rou
                                                                                             , digits = 2))
 
 ggplot(data = dmelt, 
-       aes(x = week, y = value, color = variable)) +
+       aes(x = week, y = value, color = variable, shape= variable)) +
   xlab("Week") +
   ylab("Incidences") +
   theme(axis.ticks.y = element_blank(), axis.text.y = element_blank()) +
   geom_line() +
+  geom_point()+
   ggtitle(title)
 #anomaly detecter
 AnomalyDetectionVec(unCleanedDengueData2013[,2], max_anoms=0.02, period=1440, direction='both', only_last=FALSE, plot=TRUE)

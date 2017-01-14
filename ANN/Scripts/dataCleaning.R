@@ -1,10 +1,21 @@
 require(ggplot2)
 require(data.table)
 
-unCleanedDengueData2013 = fread("D:/Dengue 2.0/Data/Dengue/dengueCases2013.csv", data.table = F, header = F, col.names = c("id", "MOH_name", c(1:52), "Total"))
+unCleanedDengueData2013 = fread("D:/Data/dengueCases2013.csv", data.table = F, header = F, col.names = c("id", "MOH_name", c(1:52), "Total"))
 cleanedDengueData2013 = fread("D:/Dengue 2.0/Data/Dengue/dengueCases2013.csv", data.table = F, header = F, col.names = c("id", "MOH_name", c(1:52), "Total"))
-unCleanedDengueData2014 = fread("D:/Dengue 2.0/Data/Dengue/dengueCases2014.csv", data.table = F, header = F, col.names = c("id", "MOH_name", c(1:52), "Total"))
+unCleanedDengueData2014 = fread("D:/Data/dengueCases2014.csv", data.table = F, header = F, col.names = c("id", "MOH_name", c(1:52), "Total"))
 cleanedDengueData2014 = fread("D:/Dengue 2.0/Data/Dengue/dengueCases2014.csv", data.table = F, header = F, col.names = c("id", "MOH_name", c(1:52), "Total"))
+#mobility model 1
+mobilitydata2013 = fread("D:/Data/weeklyMobility2.csv", data.table = F, header = F, col.names = c("MOH_NAME", "WEEK_NUMBER", "MOBILITY_VALUE"))
+
+class(mobilitydata2013$MOBILITY_VALUE)="numeric"
+
+#mobility model 2
+mobilitydata2013Model2 = fread("D:/Data/DengueMobilityModel2/uom_mobility_trips_model.csv", data.table = F, header = F, col.names = c("week", "moh_id", "MOBILITY_VALUE","moh name","lat","lon"))
+class(mobilitydata2013Model2$MOBILITY_VALUE)="numeric"
+
+#mobility trips
+mobilitydata2013Trips = fread("D:/Data/mohMobilityWeekly2013.csv", data.table = F, header = F, col.names = c("week", "moh_id", "MOBILITY_VALUE","moh name","lat","lon"))
 
 #Summery of the uncleaned and cleaned data
 describe(unCleanedDengueData2013)
@@ -46,3 +57,5 @@ for(row in c(1:NROW(unCleanedDengueData2013))) {
 
 write.csv(x = cleanedDengueData2014, file = "E:/R_git/Pramod_ML/data/cleanedDengueData2014.csv", sep = ",", row.names = FALSE, col.names = TRUE)
 write.csv(x = dengueData2013_2014, file = "E:/R_git/Pramod_ML/data/dengueData2013_2014.csv", sep = ",", row.names = FALSE, col.names = TRUE)
+write.csv(x = MohAreawisemobility, file = "D:/Data/colombomobility.csv", sep = ",", row.names = FALSE, col.names = TRUE)
+
